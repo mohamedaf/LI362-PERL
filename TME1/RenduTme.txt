@@ -1,0 +1,137 @@
+Rendu TME1 LI362
+AFFES Mohamed Amin
+3262731
+
+Exercice 1:
+
+1.3/ Affichage:
+
+$PATH /Infos/bd/public/bin:/Infos/bd/client10:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/Infos/lmd/2012/licence/ue/li215-2012oct/bin:/Infos/lmd/2012/licence/ue/li215-2012oct/remcpt:/Infos/lmd/2012/licence/ue/li219-2013fev/bin:/usr/local/netbeans-7.2/bin:/sbin/:/Infos/lmd/2013/licence/ue/li312-2013oct/bin 34 /etc/passwd
+
+
+On en déduit que la quotes simple ne permet pas l'interpretation des variable dedans il prend le tout comme la chaine de caractère 'PATH', la double quotes en revanche permet cette interpretation du coup elle affiche la valeur de la variable PATH. les backquotes permettent d'executer une commande interne shell.
+
+Exercice 2:
+
+2.1/ ls /etc/*.d                  Affiche les fichier ayant l'extention .d dans le dossier /etc/ ou l'un de ses sous dossiers dans l'arboresence.
+quand on remplace le .d par .nimportequoi, si un fichier a cette extention dans le repertoire /etc/ il l'affiche sinon il dit qu'il n'ya aucun fichier ou dossier de ce type.
+
+2.2/ echo /etc/*.d                 Affiche les fichiers ayant l'extention .d dans le repertoire /etc/ seulement, ne cherche pas dans les sous répertoires.
+
+quand on remplace le .d par .nimportequoi, si un fichier a cette extention dans le repertoire /etc/ il l'affiche sinon il réaffiche ce qu'on a écrit après le echo.
+
+2.3/ *      Correspond à n'importe quel chaîne, chaîne vide comprise. Si l'option globstar de l'interpréteur est activée, et que * est utilisé dans un contexte de développement des chemins, deux * adjacents  sont  utilisés pour un seul motif correspondant à tous les fichier et zéro ou plus de répertoires et sous-répertoires. Lorsqu'il sont suivis de /, deux * adjacents correspondront seulement aux répertoires et sous-répertoires.
+
+Non car avec la commande : ls -a | grep '^.'           on affiche les fichier ou repertoires commenceant par . donc les fichiers et repretoires cachés ce qui n'est pas ce qu'on feassait dans les questions précedentes.
+
+2.5/ ls -a /etc | grep -E '\.[^d].*$'            //je peux le faire sans grep juste avec les motifs du shell
+
+
+Exercice 3:
+
+3.3/ grep -E '(a){4,}' test.txt 
+
+3.6/ 
+#! /bin/bash
+
+
+if echo $1 | grep -E '((.)\2\2)+'; then
+	echo ok
+else 
+	echo ko
+fi
+
+
+Exercice 4:
+
+4.3/ sed -ne '/\\begin\{[^}]\}/,/\\end\{[^}]\}/p' $1     ($1 nom fichier en ligne de commande)
+
+4.4/
+
+4.5/ sed -ne 's/\/\*(.)*\*\///g' nomfichier
+
+Exercice 5:
+
+5.1/ perl -nle 'print $_' nomfichier     ou     perl -ple '' nomfichier
+
+5.2/ perl -nle 'print "$. $_"' test.txt
+
+5.3/ perl -nale 'print scalar @F' test.txt
+
+Exercice 6:
+
+Méthode 1:
+
+#! /usr/bin/perl -wl
+
+$serviette = 0;
+$torchon = 0;
+
+#pour sortir du while je fais ctrl+d ce qui veut dire fin de fichier
+
+while(<>){
+	if($_ =~ 'torchon'){
+		$torchon++.
+	}
+	elsif($_ =~ 'serviette'){
+		$serviette++;
+	}
+	else {die "Vous avez rentré une chaine incorrecte !!"}
+}
+
+print "torchon = $torchon, serviette = $serviette"
+
+Méthode 2:
+
+#! /usr/bin/perl -nl
+
+use strict;
+
+our($torchon,$serviette);
+
+if($_ =~ 'torchon'){
+	$torchon++;
+}
+elsif($_ =~ 'serviette'){
+	$serviette++;
+}
+else {die "Vous avez rentré une chaine incorrecte !!"}
+
+END{print "torchon = $torchon, serviette = $serviette"}
+
+#ce qu'il faut comprendre ici c'est que le my est locale donc en execution on a juste la chaine éqiuvalente à la dernière ligne lu donc si on a en dernière ligne torchon on a affiché torchon=1 et serviette=0. Ce qu'il faut donc faire c'est ne rien mettre ou mettre our pour déclarer en  global.
+
+
+Exercice 7:
+
+1/ perl -0777 -F'' -nale 'print scalar @F,"\n"' nomfichier
+
+2/ perl -nale '$n += scalar @F; END{print $n}' nomfichier
+
+3/ perl -0777 -F'\n' -nale 'print scalar @F,"\n"' nomfichier
+
+4/
+#! /usr/bin/perl -nls
+
+if($c){
+    @b = split // ,$_;
+    $n[3] += scalar @b + 1;      #le +1 pour le caractere de retour a la ligne
+}
+if($w){
+    @b = split / / ,$_;
+    $n[2] += scalar @b;
+}
+if($l){
+    $n[1] += 1;
+}
+
+END{print "@n $ARGV"};
+
+
+
+
+
+
+ 
+
+
