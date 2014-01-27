@@ -1,0 +1,75 @@
+Rendu TME2 LI362
+AFFES Mohamed Amin
+3262731
+
+
+Exercice 2:
+
+2/
+#! /usr/bin/perl -l
+
+foreach $i (@ARGV){
+	print $i;
+}
+
+3/
+#! /usr/bin/perl -l
+
+foreach $i ($ARGV[0]..$ARGV[1]){
+	print $i;
+}
+
+Exercice 4:
+
+2/
+#!/usr/bin/perl -l
+
+$nom = `whoami`;
+$machine = `hostname`;
+chomp $nom;
+chomp $machine;
+print "\033[31m";
+print "Bonjour $nom bienvenue sur $machine";
+print "\033[39m";
+
+3/
+#! /usr/bin/perl -lw
+
+$df = `df`;
+
+@lines = split /\n/, $df;
+
+foreach $i (@lines){
+	if($i =~ /\s(\d+)%/ && $1>90){
+        print "\033[31m";
+		print $i;
+        print "\033[39m";
+	}
+	else{
+		print $i;
+	}
+}
+
+Exercice 6:
+
+5/
+foreach(@ARGV){
+    if($_ =~ /^toto(.)*/){
+	open F, $_;
+	while($l = <F>){
+	    chomp $l;
+	    $l =~ s/chaine/tutu/g;    #=~ si Regex fait un grep sinon subtitue dans la variable
+	    print $l;
+	    print(F $l);            #ecriture dans le fichier
+	}
+	close F;
+    }
+}
+
+#marche pas l'ecriture
+
+Exercice 7:
+
+2/
+
+
